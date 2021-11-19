@@ -12,7 +12,7 @@ This project integrates and expands upon code which has been separately assemble
 - [Sam-ZHGW/GhostShip_CSC582](https://github.com/Sam-ZHGW/GhostShip_CSC582) - the Inform 7 source code for our proof of concept game
   - The primary Inform 7 source file is located at `GhostShip.inform/Source/story.ni`
 - [CynthiaSynth/PhaserPointAndClick](https://github.com/CynthiaSynth/PhaserPointAndClick) - a Javascript game built with the [Phaser](https://phaser.io/) game engine to provide a frontend for the proof of concept game
-  - The files for the HTML + Javascript frontend are located in the `GhostShip.materials/Release` directory
+  - The files for the HTML + Javascript frontend are located in the `GhostShip.materials/Templates/Phaser Game` directory
 
 ## Development
 
@@ -23,7 +23,10 @@ This project was built using Inform 7 build 6M62[^1] (I6/v6.34 lib 6/12N), and s
 To build the project after making changes to any of the above components:
 
 1. Open `GhostShip.inform` as a project in the Inform app.
-2. From the menubar, select `Release > Release for Testing`.
+2. Make changes to the Inform 7 source code and/or the Phaser Game website template.
+3. From the menubar, select `Release > Release for Testing`.[^2]
    - This will compile all resources into a web app to be served from the `GhostShip.materials/Release` directory.
-3. Navigate to the `GhostShip.materials/Release` directory and start a web server.
+4. Navigate to the `GhostShip.materials/Release` directory and start a web server.
    - If you have Python 3 installed on your system, you can do this with the command `python3 -m http.server`.
+
+[^2] "Release for Testing" is needed because the Bag of Tricks interpreter currently relies on some Inform debug symbols generated during this build process. Future releases may not require these.
