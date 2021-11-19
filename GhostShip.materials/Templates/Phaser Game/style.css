@@ -1,0 +1,150 @@
+* {
+  font-family: arial;
+}
+body {
+  margin: 0;
+}
+table.tableBorder,
+.tableBorder th,
+.tableBorder td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin: auto;
+  text-align: center;
+  vertical-align: middle;
+}
+table.noTableBorder {
+  border: none;
+  margin: auto;
+  text-align: center;
+  vertical-align: middle;
+}
+th {
+  font-size: 20px;
+  /*text-decoration: underline;*/
+}
+.tableBorder th,
+.tableBorder td {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+.noTableBorder th,
+.noTableBorder td {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+button.normalButton {
+  background-color: white;
+  color: black;
+  font-size: 16px;
+  padding: 5px 10px;
+  border: 1px solid;
+  border-radius: 5px;
+  border-color: black;
+}
+button.selectedButton {
+  background-color: #565656;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 5px 10px;
+  border: 1px solid;
+  border-radius: 5px;
+  border-color: #565656;
+}
+div#ui {
+  display: inline;
+}
+div#game-text {
+  margin: auto;
+
+  height: 200px;
+  width: 80%;
+  border: 1px solid #ccc;
+  font: 16px/26px Georgia, Garamond, Serif;
+  overflow: auto;
+}
+
+/* 
+    Right click context menu
+    Reference: https://itnext.io/how-to-create-a-custom-right-click-menu-with-javascript-9c368bb58724
+*/
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Open Sans", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+#context-menu {
+  position: fixed;
+  z-index: 10000;
+  width: 150px;
+  background: #ffffff;
+  border-radius: 4px;
+  outline-style: solid;
+  outline-width: 1px;
+  display: none;
+}
+#context-menu.visible {
+  display: block;
+}
+#context-menu .item {
+  padding: 8px 10px;
+  font-size: 15px;
+  color: #000000;
+  cursor: pointer;
+  border-radius: inherit;
+}
+#context-menu .item:hover {
+  background: #e7e7e7;
+}
+#context-menu .title {
+  padding: 8px 10px;
+  font-size: 15px;
+  background: #3f3f3f;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 4px 4px 0px 0px;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+}
+
+/*
+Styles from inform for play.html
+*/
+.play .coverimage {
+  position: fixed;
+}
+.play .links {
+  margin-top: 200px;
+  position: fixed;
+}
+
+.interpretercredit {
+  bottom: 1em;
+  font-size: 80%;
+  position: fixed;
+}
+
+#gameport {
+  background: white;
+  line-height: 1.4;
+  margin: 1em;
+}
+
+#output {
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+/* hide the command prompt, since people will be interacting via point and click for now */
+#lineinput {
+  display: none !important;
+}

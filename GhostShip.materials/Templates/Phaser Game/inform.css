@@ -1,0 +1,128 @@
+coverimage {
+  width: 12.6em;
+  margin-top: 2em;
+  margin-left: 1em;
+  float: left;
+  clear: left;
+  text-align: right;
+}
+
+/* 
+Here we make invisible the one-pixel border that currently goes around
+the cover image. 
+*/
+
+.coverimage a {
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  color: #fff;
+}
+
+/* 
+The introduction formatting applies to the title, author name, and release
+number, here presented at the top of the page. 
+
+To change the appearance of specific elements, tweak
+
+	h1 for the title
+	h2 for the author name
+	.bibliography for the release information
+
+*/
+
+.introduction {
+  padding-top: 2.4em;
+  margin-left: 15.4em;
+  width: 33em;
+  line-height: 1;
+  text-align: left;
+}
+
+/* 
+These set the sizes for the title (h1) and the author name (h2). 
+
+The ideal font-size for h1 may vary quite a bit depending on how long the 
+game's title is: larger for one-word titles, smaller for longer titles.
+
+Should we wish to remove the title entirely and allow the cover art alone
+to represent the game, we need only add the line "display: none;" to the
+definition of h1.
+
+*/
+h1 {
+  font-size: 2em;
+}
+h2 {
+  font-size: 1em;
+  line-height: 0.25;
+}
+
+/* The about formatting applies to blurb information. */
+
+.about {
+  margin-top: 2.8em;
+  margin-left: 15.4em;
+  width: 33em;
+  text-align: left;
+}
+
+/* 
+By setting about p and about p + p, we instruct the first paragraph of the
+blurb to be unindented but subsequent paragraphs to be indented a small 
+distance. 
+*/
+
+.about p {
+  margin-bottom: 0;
+}
+
+.about p + p {
+  text-indent: 1.4em;
+  margin-top: 0;
+}
+
+/* 
+Playinfo affects the paragraph at the bottom of the home-page that supplies
+the IFID for the game and suggests interpreters for the author to use. */
+
+.playinfo {
+  margin: 1em 0px 0px 15.4em;
+  width: 33em;
+}
+
+.playinfo p {
+  font-size: 0.75em;
+}
+
+/* 
+The links formatting applies to the story file and auxiliary links found
+on the home page, and to the Contents, Next, and Previous links on the 
+source pages. Here we arrange for them to appear in a column at the left
+side of the page. 
+*/
+
+.links {
+  width: 13em;
+  float: left;
+  clear: left;
+  text-align: right;
+  margin-top: 2.8em;
+}
+
+.links li {
+  list-style-type: none;
+  list-style-position: default;
+  padding: 0.4 em;
+}
+
+/* 
+The filetype id applies only to the little (blorb), (pdf), and similar
+denotations found on the links. Here we make these appear smaller than the 
+surrounding text. In order to get rid of them entirely, we would add 
+"display: none;" to our filetype definition. 
+*/
+
+span.filetype {
+  font-size: 0.5em;
+}
