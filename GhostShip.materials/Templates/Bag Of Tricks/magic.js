@@ -108,6 +108,8 @@ class MagicBag {
     this.actionsMap = {};
     this.rulebooks = [];
     this.activeAction = null;
+    this.loadComplete = false;
+    this.pendingLoadResolve = null;
   }
 
   syncThing(thing) {
@@ -198,10 +200,24 @@ class MagicBag {
     } else return output;
   }
 
+  waitForLoad() {
+    if (this.loadComplete) {
+      return Promise.resolve(true);
+    } else {
+      return new Promise((resolve) => {
+        this.pendingLoadResolve = resolve;
+      });
+    }
+  }
+
   // This function runs every time a "turn" is over and Inform is once again prompting the user for input.
   expectCommand() {
     const magic = MagicBag.getInstance();
     magic.hideVorpleOutput = false;
-    console.log(magic);
+    magic.loadComplete = true;
+    if (magic.pendingLoadResolve) {
+      magic.pendingLoadResolve(true);
+      magic.pendingLoadResolve = null;
+    }
   }
 }

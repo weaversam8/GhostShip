@@ -60,6 +60,11 @@ class GameScene extends Phaser.Scene {
         for (let i = 0; i < inventoryTextArr.length; i++) {
             makeButton(inventoryTextArr[i]);
         }
+
+        this.magic = MagicBag.getInstance();
+        this.magic.waitForLoad().then(() => {
+            console.log("MagicBag Interpreter has loaded");
+        });
     }
 
     update() {
