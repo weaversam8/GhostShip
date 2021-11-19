@@ -1,0 +1,6 @@
+# A small utility script used for syncing the component repos to the monorepo.
+copy.sh
+GhostShip.materials/Release/interpreter
+GhostShip.inform/Build
+GhostShip.inform/Index
+GhostShip.inform/Skein.skein
