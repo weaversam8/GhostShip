@@ -135,6 +135,10 @@ class MagicBag {
     }
   }
 
+  setCurrentRoom(id) {
+    this.currentRoom = this.rooms[id];
+  }
+
   setActions(actions) {
     this.actionsList = actions.map((action) => {
       return new Action(action.slug, action.id, action.name, action.args);

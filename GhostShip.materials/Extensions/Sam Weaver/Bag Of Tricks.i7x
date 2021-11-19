@@ -110,6 +110,7 @@ Every turn:
 		execute JavaScript command "magic.syncThing([JSON for item])";
 	repeat with room running through rooms:
 		execute JavaScript command "magic.syncRoom([JSON for room])";
+	execute JavaScript command "magic.setCurrentRoom([object ID for location of player])";
 	[ say "[list of identifiers]"; ]
 
 Bag of Tricks ends here.
