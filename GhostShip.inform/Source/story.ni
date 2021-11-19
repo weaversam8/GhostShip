@@ -2,6 +2,7 @@
 
 Include Bag of Tricks by Sam Weaver.
 Release along with the "Bag of Tricks" interpreter.
+Release along with a "Phaser Game" website.
 
 adjacent-by-doors relates a room (called A) to a room (called B) when A encloses an open door (called D) and the other side of D from A is B. The verb to be adjacent-by-doors to implies the adjacent-by-doors relation.
 
@@ -29,32 +30,7 @@ Report hiding it under:
 Understand "flip [something switched off]" as switching on. Understand "flip [something switched on]" as switching off. Understand "flip [something]" as switching on.
 Understand "search under [something]" as looking under.
 Understand "check under [something]" as looking under.
-[----------------------------------------Parser-----------------------------------------]
-The last command is a text that varies.
 
-The parser error flag is a truth state that varies. The parser error flag is false.
-
-Rule for printing a parser error when the latest parser error is the only understood as far as error and the player's command matches the text "with":
-	now the last command is the player's command;
-	now the parser error flag is true;
-	let n be "[the player's command]";
-	replace the regular expression ".* with (.*)" in n with "with \1";
-	say "(ignoring the unnecessary words '[n]')[line break]";
-	replace the regular expression "with .*" in the last command with "".
-
-Rule for printing a parser error when the latest parser error is the not a verb I recognise error and the player's command matches the text "try to":
-	now the last command is the player's command;
-	now the parser error flag is true;
-	say "(ignoring the unnecessary words 'try to')[line break]";
-	replace the regular expression "try to" in the last command with "".
-	
-Rule for printing a parser error when the latest parser error is the didn't understand error and the player's command matches the text "dial":
-	say "You should specify what number you wish to dial to."
-	
-Rule for reading a command when the parser error flag is true:
-	now the parser error flag is false;
-	change the text of the player's command to the last command.
-[--------------------------------------------------------------------------------------]
 The game_state is a number which varies. The game_state is initially 0.
 The game_counter is a number which varies. The game_counter is initially 0.
 The game_clue is a number which varies. The game_clue is initially 0.

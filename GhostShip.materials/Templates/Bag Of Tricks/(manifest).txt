@@ -47,12 +47,6 @@ g
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="interpreter/roboto.css">
-    <link rel="stylesheet" type="text/css" href="interpreter/jquery.powertip.css">
-    <link rel="stylesheet" type="text/css" href="interpreter/toastr.css">
-    <link rel="stylesheet" type="text/css" href="interpreter/vex.css">
-    <link rel="stylesheet" type="text/css" href="interpreter/vex-theme-plain.css">
-
     <link rel="stylesheet" type="text/css" href="interpreter/haven.css">
     <link rel="stylesheet" type="text/css" href="interpreter/vorple.css">
 []
@@ -111,6 +105,7 @@ g
 
     vorple.debug.off();
     vorple.init({ debug_info_chunk: true });
+    setTimeout(() => {document.getElementById("output").scrollTop = 0;window.scrollTo(0, 0);}, 1000); // scroll to the top of the output so the user can read
   </script>
 []
 
@@ -145,3 +140,5 @@ vorple.haven.setBase64StoryFile('
 vorple.js.map
 vorple.js
 magic.js
+haven.css
+vorple.css
