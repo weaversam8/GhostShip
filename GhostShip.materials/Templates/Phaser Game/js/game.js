@@ -305,14 +305,27 @@ function updateRightClickMenuValues( obj ) {
 function generateActions( obj ) {
     // Clear the old actions
     actionsTextArr = [];
-    console.log("TEST 0");
+
+    // Get the "thing" as a variable from the API
+    let objThing = null;
+    console.log("Things length is ", magic.things.length );
+    for ( let i = 0; i < magic.things.length; i++ ) {
+        console.log("Comparing ", magic.things[i].name, " with ", obj );
+        if ( magic.things[i].name === obj ) {
+            objThing = magic.things[i];
+        }
+    }
+
+    // Error catching
+    if (objThing === null) {
+        console.log("Thing was not found!");
+    }
 
     // Loop through the total list of actions
     for ( let i = 0; i < magic.actionsList.length; i++ ) {
-        console.log("TEST 0.5");
         let action = magic.actionsList[i];
         console.log("TEST 1");
-        action.check(obj).then(() => {
+        action.check(objThing).then(() => {
             // If the action is valid for the object
             console.log(JSON.stringify(action), " is a valid action for ", obj);
             actionsTextArr.push(action.name);
