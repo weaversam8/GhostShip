@@ -2,6 +2,13 @@
 var selectedItem;
 var actionsTextArr;
 
+// Rooms
+const rooms = ["a Cabin", "an Engine room"];
+let currRoom = rooms[0];
+
+// For Magic Bag API
+var magic = null;
+
 class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
@@ -20,14 +27,57 @@ class GameScene extends Phaser.Scene {
         this.load.image('character', 'assets/character.png');
         this.load.image('lightSwitch', 'assets/lightSwitch.png');
         this.load.image('wall', 'assets/wall.png');
+
+        // Instance of Magic Bag API
+        magic = MagicBag.getInstance();
+        magic.waitForLoad().then(() => {
+            console.log("MagicBag Interpreter has loaded");
+        });
     }
 
     create() {
         // Disable browser right click menu
         //this.input.mouse.disableContextMenu();
+
+        for ( let i = 0; i < magic.rooms.length; i++ ) {
+            allRooms[i] = magic.rooms[i].name;
+        }
+
+        // Initial starting scene
+        this.makeRoom1();
         
         customRightClick();
 
+        actionsTextArr = new Array();
+        actionsTextArr.push('look at');
+        actionsTextArr.push('pick up');
+        actionsTextArr.push('smell');
+
+        var inventoryTextArr = new Array();
+        inventoryTextArr.push('book');
+        inventoryTextArr.push('key');
+        inventoryTextArr.push('code');
+
+        // Make buttons for each inventory item
+        for (let i = 0; i < inventoryTextArr.length; i++) {
+            makeButton(inventoryTextArr[i]);
+        }
+    }
+
+    update() {
+        var location = currRoom;
+        if (magic.currentLocation) {
+            console.log("currentLocation is now defined");
+            location = magic.currentLocation.name;
+        }
+
+        if (currRoom != location) {
+            console.log("Room is changing from ", currRoom, " to ", location);
+            currRoom = location;
+        }
+    }
+
+    makeRoom1() {
         // Background image
         //this.add.image(400, 300, 'sky').setTint(0xc4c4c4);
         var wallObj = this.add.sprite(1280/2, 185, 'wall').setScale(1);
@@ -45,30 +95,6 @@ class GameScene extends Phaser.Scene {
         clickable ( doorObj, "Door" );
         clickable ( characterObj, "Player" );
         clickable ( lightSwitchObj, "Light Switch" );
-
-        actionsTextArr = new Array();
-        actionsTextArr.push('look at');
-        actionsTextArr.push('pick up');
-        actionsTextArr.push('smell');
-
-        var inventoryTextArr = new Array();
-        inventoryTextArr.push('book');
-        inventoryTextArr.push('key');
-        inventoryTextArr.push('code');
-
-        // Make buttons for each inventory item
-        for (let i = 0; i < inventoryTextArr.length; i++) {
-            makeButton(inventoryTextArr[i]);
-        }
-
-        this.magic = MagicBag.getInstance();
-        this.magic.waitForLoad().then(() => {
-            console.log("MagicBag Interpreter has loaded");
-        });
-    }
-
-    update() {
-
     }
 }
 
