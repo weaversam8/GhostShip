@@ -1,8 +1,8 @@
 "The Ghost Ship" by "INFORMational Wizards"
+
 Include Bag of Tricks by Sam Weaver.
 Release along with the "Bag of Tricks" interpreter.
 Release along with a "Phaser Game" website.
-
 
 [-------------------------------------When play Begins---------------------------------------------------------]
 When play begins:

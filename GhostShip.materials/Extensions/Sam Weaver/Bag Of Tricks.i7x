@@ -100,10 +100,13 @@ Carry out manually triggering a rulebook:
 		let rb be the text matching subexpression 1 converted into a number;
 		say "[the return value of rulebook rb]".
 
-When play begins:
+This is the Bag of Tricks initiation rule:
+	say "Bag of tricks initializing.";
 	execute JavaScript command "magic.setActions([list of actions])";
 	execute JavaScript command "magic.setRulebooks([list of rulebooks])";
 	Follow the every turn rulebook.
+
+The Bag of Tricks initiation rule is listed before the when play begins stage rule in the startup rulebook.
 
 Every turn:
 	repeat with item running through things:
