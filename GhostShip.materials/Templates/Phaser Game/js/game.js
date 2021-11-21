@@ -65,11 +65,7 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
-        var location = currRoom;
-        if (magic.currentLocation) {
-            console.log("currentLocation is now defined");
-            location = magic.currentLocation.name;
-        }
+        var location = magic.currentRoom;
 
         if (currRoom != location) {
             console.log("Room is changing from ", currRoom, " to ", location);
