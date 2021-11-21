@@ -278,24 +278,49 @@ function objectLeftClickEvent( pointer, name ) {
     }
 }
 
-function objectRightClickEvent( name ) {
-    updateRightClickMenuValues( name );
+function objectRightClickEvent( obj ) {
+    updateRightClickMenuValues( obj );
 }
 
-function updateRightClickMenuValues( name ) {
+function updateRightClickMenuValues( obj ) {
     // Remove old elements
-    const myNode = document.getElementById("context-menu");
-    myNode.textContent = '';
+    const rcMenu = document.getElementById("context-menu");
+    rcMenu.textContent = '';
 
     // Add title
     var title = document.createElement("div");
     title.className = "title";
-    title.innerHTML = name;
-    document.getElementById("context-menu").appendChild(title);
+    title.innerHTML = obj;
+    rcMenu.appendChild(title);
+
+    // Update the array of actions for the clicked object
+    generateActions( obj );
 
     // Make new elements for each action
     for (let i = 0; i < actionsTextArr.length; i++) {
         makeRightClickElement(actionsTextArr[i]);
+    }
+}
+
+function generateActions( obj ) {
+    // Clear the old actions
+    actionsTextArr = [];
+    console.log("TEST 0");
+
+    // Loop through the total list of actions
+    for ( let i = 0; i < magic.actionsList.length; i++ ) {
+        console.log("TEST 0.5");
+        let action = magic.actionsList[i];
+        console.log("TEST 1");
+        action.check(obj).then(() => {
+            // If the action is valid for the object
+            console.log(JSON.stringify(action), " is a valid action for ", obj);
+            actionsTextArr.push(action.name);
+        }).catch(() => {
+            // If the action is NOT valid for the object
+            console.log(JSON.stringify(action), " is NOT a valid action for ", obj);
+        });
+        console.log("TEST 2");
     }
 }
 
