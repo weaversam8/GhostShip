@@ -9,14 +9,27 @@ When play begins:
 	say "[bold type]Trigger warning: This game deals with violence and suicidal contents.[paragraph break][paragraph break]";
 	now the game_clue is a random number from 0 to 3;
 	now the passcode of the padlock is a random number from 1001 to 9999;
-	now the passcode of the pistol is a random number from 1001 to 9999;
-	if the passcode of the padlock is the passcode of the pistol, decrement the passcode of the pistol;
-	now the passcode of the wedding picture is a random number from 1001 to 9999;
-	if the passcode of the padlock is the passcode of the pistol, decrement the passcode of the wedding picture;
-	now the passcode of the paper is a random number from 1001 to 9999;
-	if the passcode of the padlock is the passcode of the pistol, decrement the passcode of the paper;
-	now the passcode of the books is a random number from 1001 to 9999;
-	if the passcode of the padlock is the passcode of the pistol, decrement the passcode of the books.
+	if the game_clue is 0:
+		now the passcode of the first password is the passcode of the padlock;
+	otherwise:
+		now the passcode of the first password is a random number from 1001 to 9999;
+		if the passcode of the padlock is the passcode of the first password, decrement the passcode of the first password;
+	if the game_clue is 1:
+		now the passcode of the second password is the passcode of the padlock;
+	otherwise:
+		now the passcode of the second password is a random number from 1001 to 9999;
+		if the passcode of the padlock is the passcode of the second password, decrement the passcode of the second password;
+	if the game_clue is 2:
+		now the passcode of the third password is the passcode of the padlock;
+	otherwise:
+		now the passcode of the third password is a random number from 1001 to 9999;
+		if the passcode of the padlock is the passcode of the third password, decrement the passcode of the third password;
+	if the game_clue is 3:
+		now the passcode of the fourth password is the passcode of the padlock;
+	otherwise:
+		now the passcode of the fourth password is a random number from 1001 to 9999;
+		if the passcode of the padlock is the passcode of the fourth password, decrement the passcode of the fourth password.
+		
 adjacent-by-doors relates a room (called A) to a room (called B) when A encloses an open door (called D) and the other side of D from A is B. The verb to be adjacent-by-doors to implies the adjacent-by-doors relation.
 
 [----------------------------------------------------Rules---------------------------------------------------------]
@@ -57,7 +70,7 @@ The desc_4 is a number which varies. The desc_4 is initially 0.
 
 The power_on is a number which varies. The power_on is initially 0.
 
-The carrying capacity of the player is 2.
+The carrying capacity of the player is 10.
 Understand the command "access" as "open".
 Understand "grope for [thing]" as touching.
 Understand "feel for [thing]" as touching.
@@ -139,6 +152,11 @@ Carry out shooting:
 			if the noun is the steel door or the noun is the padlock:
 				say "You raise the pistol and aim your shot, your hand steady and stable. The bullet blasts forth at sonic speed, hitting the padlock right in the center of mass. An ear-bleeding metallic impact sound and blinding sparks ensue. You see that the padlock is now completely destroyed.";
 				now not_broken of padlock is 0;
+				now the padlock is unlocked;
+				now the first password is nowhere;
+				now the second password is nowhere;
+				now the third password is nowhere;
+				now the fourth password is nowhere;
 			if the noun is the screw:
 				say "You raise the pistol and aim your shot. As you pull the trigger, the howling bullet exits the chamber and flies towards the screw. With pinpoint accuracy, the bullet hit the screw with a thundering noise.[paragraph break]But as you look more closely, you find that the screw is still fixed in place if not embedded a bit deeper than before.";
 			if the noun is the protective shell:
@@ -160,24 +178,38 @@ Carry out shooting:
 Understand "shoot [any object]" as shooting. 
 Understand "fire at [any object]" as shooting. 
 [----------------------------------Dial Action----------------------------------------]
-Dialing it to is an action applying to one thing and one number. Understand "dial [something] to [a number]" as dialing it to. Understand "turn [something] to [a number]" as dialing it to.
+The first password is nowhere. The first password has a number called passcode. The description of the first password is "[passcode of the first password]."
+The second password is nowhere. The second password has a number called passcode. The description of the second password is "[passcode of the second password]."
+The third password is nowhere. The third password has a number called passcode. The description of the third password is "[passcode of the third password]."
+The fourth password is nowhere. The fourth password has a number called passcode. The description of the fourth password is "[passcode of the fourth password]."
+Instead of unlocking the padlock with something:
+	if the second noun is not the first password and the second noun is not the second password  and the second noun is not the third password and the second noun is not the fourth password:
+		instead say "That makes no sense.";
+	try dialing the padlock to the second noun.
+	
+Dialing it to is an action applying to one thing and one thing.
 Check dialing it to:
 	if the noun is not a padlock:
 		instead say "You don't know how to do that to [the noun].";
 	if not_broken of the noun is 0:
-		instead say "[The noun] is already being dealt with.";
-	unless the player's command matches the regular expression "\d\d\d\d$":
-		instead say "The lock takes four digits.".
+		instead say "[The noun] is already being dealt with.".
 
 Carry out dialing it to:
-	if the number understood is the passcode of the noun:
-		now not_broken of the noun is 0;
+	if the passcode of the second noun is the passcode of the noun:
+		now the first password is nowhere;
+		now the second password is nowhere;
+		now the third password is nowhere;
+		now the fourth password is nowhere;
+		now the padlock is unlocked;
+		now the not_broken of the padlock is 0;
+	otherwise:
+		now the second noun is nowhere.
 
 Report dialing it to:
 	if not_broken of the noun is 0:
 		say "The padlock clicks unlocked.";
 	otherwise:
-		say "You turn the dial, but nothing happens."
+		say "You turn the dial, but nothing happens. The passcode is not quite right."
 
 Instead of opening the steel door:
 	if not_broken of padlock is 1:
@@ -185,7 +217,6 @@ Instead of opening the steel door:
 	otherwise:
 		now the steel door is open;
 		say "Now that the padlock is out of your way, you push the steel door open. As you've expected, you see the dimly lit hallway outside the steel door.".
-
 [----------------------------------Read Action----------------------------------------]
 Understand the command "read" as something new. 
 Reading is an action applying to one touchable thing and requiring light.
@@ -328,8 +359,9 @@ Before smelling:
 
 Instead of taking the revolver pistol for the first time:
 	say "An antique revolver pistol lies silently in the drawer. The model is Webley Mk. IV, a memorial medal for a war veteran of a not so distant war.[paragraph break]";
-	say "The moment you see it, you feel something is awakening deep inside your memory, you see the bloody battles unfolding before your eyes. For a moment you're lost in the reminiscence, all things seem so surreal. When you finally find your way back to the reality, you seem to recall something - Lieutenant Commander in navy before leaving, and that shiny Meritorious Service Medal. The next thing comes to your mind is a certain passcode of some importance - [if game_clue is 0][passcode of the padlock][otherwise][passcode of the pistol][end if].[paragraph break]";
+	say "The moment you see it, you feel something is awakening deep inside your memory, you see the bloody battles unfolding before your eyes. For a moment you're lost in the reminiscence, all things seem so surreal. When you finally find your way back to the reality, you seem to recall something - Lieutenant Commander in navy before leaving, and that shiny Meritorious Service Medal. The next thing comes to your mind is a certain passcode of some importance..[paragraph break]";
 	say "You hold the pistol and instinctly hit the break lever, flip the fore-piece forward and look into the cylinder to check how many bullets are left. To your disappointment, it seems there is only one .455 bullet left in the cylinder.";
+	now the player carries the first password;
 	increment game_state;
 	now the player has the pistol.
 
@@ -352,23 +384,20 @@ Instead of examining the books for the second time:
 	say "You [bold type]pick up a few and flick through them[roman type] as you check if there's anything worth noting, but you found nothing particualrly interesting to you. Maybe take another closer look?"
 Instead of examining the books for the third time:
 	if game_clue is 2:
-		say "One particular book piques your interest - [italic type]'Folktales of the Great Old Ones'[roman type]. As you read through it, you see your fragmented memories of yore flying by before your eyes - your childhood fantasies about big bad monsters roaming the ancient Earth, fighting each other for their own agenda. A four-digit code emerges from deep within your memory. - [passcode of padlock]";
+		say "One particular book piques your interest - [italic type]'Folktales of the Great Old Ones'[roman type]. As you read through it, you see your fragmented memories of yore flying by before your eyes - your childhood fantasies about big bad monsters roaming the ancient Earth, fighting each other for their own agenda. A four-digit code emerges from deep within your memory.";
 	otherwise:
-		say "One particular book piques your interest - [italic type]'Death of a Space Man'[roman type]. As you read through it, you see your fragmented memories of yore flying by before your eyes - your childhood fantasies of dreaming of becoming an astronaut and leave the Earth to explore the galaxy, but something interrupts your journey, something gargantuan, ancient and of unspeakable evil. you seem to recall a certain passcode of some importance - [passcode of the books].".
+		say "One particular book piques your interest - [italic type]'Death of a Space Man'[roman type]. As you read through it, you see your fragmented memories of yore flying by before your eyes - your childhood fantasies of dreaming of becoming an astronaut and leave the Earth to explore the galaxy, but something interrupts your journey, something gargantuan, ancient and of unspeakable evil. you seem to recall a certain passcode of some importance.";
+	now the player carries the second password.
 
 Instead of examining the wedding picture for the first time:
 	say "A wedding picture of a happy couple in a decorated wooden frame. The man in the picture looks handsome and confident in his military uniform. You recognize the man in the picture is actually you.";
-	if game_clue is 1:
-		say "You see a hand-written 4-digit number written in the back of the picture - [passcode of padlock]";
-	otherwise:
-		say "You see a hand-written 4-digit number written in the back of the picture - [passcode of the wedding picture].".
+	say "You see a hand-written 4-digit number written in the back of the picture.";
+	now the player carries the third password.
 
 Instead of examining the paper for the first time:
 	say "A few paper files concerning details of the ship - MV Valiant, its crew member, cargo and the current course. You see your name under the title First Mate.";
-	if game_clue is 3:
-		say "You seem to recall a certain passcode - [passcode of padlock]";
-	otherwise:
-		say "You seem to recall a certain passcode - [passcode of the paper].".
+	say "You seem to recall a certain passcode.";
+	now the player carries the fourth password.
 
 Instead of examining the Captain's Log for the first time:
 	increment game_state;
@@ -379,14 +408,14 @@ Instead of examining the Captain's Log for the first time:
 After wearing the leather coat:
 	if the player is wearing the leather coat:
 		increase carrying capacity of player by 2;
-		say "You now have more pockets to store items."
+		say "You feel warm and protected."
 
 Before taking off the leather coat:
 	say "You feel safe and comfy in it, it is not much but it's thick enough to protect you against the cold." instead.
 
 The steel door is a door. The northern hallway is east of the steel door. The steel door is east of the Cabin and west of the northern hallway. The description of the steel door is "This is just a typical steel door on a military vessel - heavy and sturdy.[if not_broken of the item described is 1] You notice there is an old padlock on the hasp. If you want to go out, you'll definitely need to get rid of this padlock.".
-understand "turn padlock to [any number]" as a mistake ("To open the padlock, try DIAL PADLOCK TO 4 digit number.").
-The padlock is part of the steel door. The padlock is scenery. The padlock has a number called passcode. The description of the padlock is "[if not_broken of the item described is 1]Bulky combination padlock with 4 digits, you can [bold type]dial it to[roman type] any 4 digit number. Apparently someone put it on there, but who?[otherwise]This padlock cannot stop you now.".
+
+The padlock is part of the steel door. The padlock is scenery. The padlock is a locked container. The padlock has a number called passcode. The description of the padlock is "[if not_broken of the item described is 1]Bulky combination padlock with 4 digits, you can [bold type]dial it to[roman type] any 4 digit number. Apparently someone put it on there, but who?[otherwise]This padlock cannot stop you now.".
 [---------------------------------------------------Hallway-------------------------------------------------------]
 The northern hallway is a room. The description of the hallway is "Typical narrow hallway seen on common naval vessels, the engine room is south of the hallway. North of the hallway is the stairs to the upper deck, but the hatch door is closed. There are a few doors alongside the hallway, but these doors are all locked, and awfully quiet."
 The control switch is in the hallway. The control switch is a switched off device. The description of the control switch is "A control switch used to control the hatch door."
@@ -410,7 +439,7 @@ A bunker door is a door. The southern hallway is north of the bunker door. The b
 Before going from the hallway to the southern hallway for the first time: say "[paragraph break]You realize that the ship is too steady, as if something is holding it in place. Normally a ship would be reacting to the waves even if it stops and drops the anchor, and if the ship is beached, you'd be able to hear sounds of waves hitting the beach. something is definitely not right. Besides, you haven't seen a single soul so far, where are the crew members?"
 [---------------------------------------------------Engn-------------------------------------------------------]
 The Engine room is a room. North of the engine room is the bunker door. South of the bunker door is the engine room. The description of the engine room is "This is the heart of the ship, the ceiling lights are a bit faint, but you still can see exposed wires zizaging from the floor to the roof, huge pipes coming down from the roof connecting to several big engines and cylindrical containers. Juding by the sizes of these engines, the ship is definitely not some kind of huge war ship or giant cargo hauler."
-The engine room contains a welding unit. The description of the welding unit is "[if not_broken of the item described is 1]An oxyacetylene welding unit, judging by the pressure indicator, it is still usable.[otherwise]Shit.[end if]".
+The engine room contains a welding unit. The description of the welding unit is "[if not_broken of the item described is 1]An oxyacetylene welding unit, judging by the pressure indicator, it is still usable.[otherwise]Shit.[end if]". The welding is pushable between rooms. The welding unit is not portable.
 The engine room contains a workbench. The workbench is a supporter. The description of the workbench is "A workbench with a vise installed. Looks pretty old, you can clearly see large patches of rust and erosion on it.".
 A vise is part of the workbench. "A mechanical apparatus used to secure an object to allow work to be performed on it." It is fixed in place.
 A broken screwdriver handle is on the workbench. The description of the screwdriver handle is "A big screwdriver handle, the head is clearly snapped off, and nowhere to be found.[if the player does not have the broken screwdriver head] Where could it be?"
