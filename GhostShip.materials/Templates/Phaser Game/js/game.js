@@ -32,8 +32,10 @@ class GameScene extends Phaser.Scene {
 
         // Instance of Magic Bag API
         magic = MagicBag.getInstance();
+        magic.onChange = onChange;
         magic.waitForLoad().then(() => {
             console.log("MagicBag Interpreter has loaded");
+            refreshInventory();
         });
     }
 
@@ -58,16 +60,6 @@ class GameScene extends Phaser.Scene {
         actionsTextArr.push('look at');
         actionsTextArr.push('pick up');
         actionsTextArr.push('smell');
-
-        var inventoryTextArr = new Array();
-        inventoryTextArr.push('book');
-        inventoryTextArr.push('key');
-        inventoryTextArr.push('code');
-
-        // Make buttons for each inventory item
-        for (let i = 0; i < inventoryTextArr.length; i++) {
-            makeButton(inventoryTextArr[i]);
-        }
     }
 
     update() {
@@ -130,6 +122,23 @@ function customRightClick() {
     });
 
     //rightClickMenuKeepInBounds();
+}
+
+function refreshInventory() {
+    // Clear inventory
+    document.getElementById("inventory").innerHTML = "";
+
+    // Make buttons for each inventory item
+    const thingIDs = Object.keys(magic.things);
+    thingIDs.forEach(thingID => {
+        if (magic.things[thingID].inInventory) {
+            makeButton(magic.things[thingID]);
+        }
+    });
+}
+
+function onChange() {
+    refreshInventory();
 }
 
 function rightClickMenuKeepInBounds() {
@@ -215,11 +224,11 @@ function selectItem(clickedItem) {
 }
 
 // Make button for a given action
-function makeButton(text) {
+function makeButton(thing) {
     // Create the button with attributes
     var button = document.createElement("button");
-    button.innerHTML = text;
-    button.id = text + "button";
+    button.innerHTML = thing.name;
+    button.id = "thing_" + thing.id;
     button.className = "normalButton";
 
     button.onclick = function () {

@@ -104,6 +104,7 @@ class MagicBag {
     this.actionQueue = [];
     this.loadComplete = false;
     this.pendingLoadResolve = null;
+    this.onChange = () => {};
   }
 
   syncThing(thing) {
@@ -185,6 +186,7 @@ class MagicBag {
         const retValue = matches[1];
         if (retValue === "0") {
           magic.activeAction.resolve(true);
+          magic.onChange();
         } else {
           magic.activeAction.reject(retValue);
         }
