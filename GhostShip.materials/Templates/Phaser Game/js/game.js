@@ -89,7 +89,7 @@ class GameScene extends Phaser.Scene {
         // Make objects clickable
         clickable ( recordPlayerObj, "Record Player" );
         clickable ( doorObj, "Door" );
-        clickable ( characterObj, "Player" );
+        clickable ( characterObj, "yourself" );
         clickable ( lightSwitchObj, "Light Switch" );
     }
 }
@@ -308,17 +308,20 @@ function generateActions( obj ) {
 
     // Get the "thing" as a variable from the API
     let objThing = null;
-    console.log("Things length is ", magic.things.length );
-    for ( let i = 0; i < magic.things.length; i++ ) {
-        console.log("Comparing ", magic.things[i].name, " with ", obj );
-        if ( magic.things[i].name === obj ) {
-            objThing = magic.things[i];
+    let thingIDs = Object.keys(magic.things);
+    console.log("Things length is ", thingIDs.length );
+    for ( let i = 0; i < thingIDs.length; i++ ) {
+        console.log("Comparing ", magic.things[thingIDs[i]].name, " with ", obj );
+        if ( magic.things[thingIDs[i]].name === obj ) {
+            objThing = magic.things[thingIDs[i]];
         }
     }
 
     // Error catching
     if (objThing === null) {
-        console.log("Thing was not found!");
+        console.log("Thing was NOT found!");
+    } else {
+        console.log("Thing was found: ", objThing.name);
     }
 
     // Loop through the total list of actions
@@ -337,7 +340,9 @@ function generateActions( obj ) {
     }
 
     // Wait 500 miliseconds for magic's promise to resolve
-    await delay(500);
+    setTimeout(function(){
+        console.log("waiting");
+   }, 500);
 }
 
 // Make new element in the right-click menu for a given action
