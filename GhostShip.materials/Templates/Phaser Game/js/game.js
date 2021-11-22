@@ -8,6 +8,8 @@ let currRoom = rooms[0];
 
 // For Magic Bag API
 var magic = null;
+let oneArgActions;
+let zeroArgActions;
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -47,6 +49,10 @@ class GameScene extends Phaser.Scene {
         this.makeRoom1();
         
         customRightClick();
+
+        // Magic stuff
+        oneArgActions = magic.actionsList.filter(action => action.args == 1);
+        zeroArgActions = magic.actionsList.filter(action => action.args == 0);
 
         actionsTextArr = new Array();
         actionsTextArr.push('look at');
@@ -325,16 +331,16 @@ function generateActions( obj ) {
     }
 
     // Loop through the total list of actions
-    for ( let i = 0; i < magic.actionsList.length; i++ ) {
-        let action = magic.actionsList[i];
+    for ( let i = 0; i < oneArgActions.length; i++ ) {
+        let action = oneArgActions[i];
         console.log("TEST 1");
         action.check(objThing).then(() => {
             // If the action is valid for the object
-            console.log(JSON.stringify(action), " is a valid action for ", obj);
+            console.log(action.name, " is a valid action for ", obj);
             actionsTextArr.push(action.name);
         }).catch(() => {
             // If the action is NOT valid for the object
-            console.log(JSON.stringify(action), " is NOT a valid action for ", obj);
+            console.log(action.name, " is NOT a valid action for ", obj);
         });
         console.log("TEST 2");
     }
