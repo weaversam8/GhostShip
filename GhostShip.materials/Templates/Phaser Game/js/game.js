@@ -335,6 +335,9 @@ function generateActions( obj ) {
         });
         console.log("TEST 2");
     }
+
+    // Wait 500 miliseconds for magic's promise to resolve
+    await delay(500);
 }
 
 // Make new element in the right-click menu for a given action
