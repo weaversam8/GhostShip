@@ -36,12 +36,6 @@ class Action {
   }
 
   triggerRulebook(rulebook, ...args) {
-    if (MagicBag.getInstance().activeAction) {
-      throw new Error(
-        "Another action rulebook cannot be triggered while we're waiting for the response of a previous action rulebook."
-      );
-    }
-
     if (this.args !== args.length)
       throw new Error(
         `Invalid number of arguments for action ${this.slug}. ${this.args} expected, ${args.length} provided.`
@@ -51,13 +45,12 @@ class Action {
     args.forEach((arg, i) => {
       commandSpecifier += `,${arg.id}`;
     });
-    vorple.prompt.queueCommand(`trigger ${commandSpecifier}`, true);
     return new Promise((resolve, reject) => {
-      MagicBag.getInstance().activeAction = {
+      MagicBag.getInstance().queueTrigger({
         resolve,
         reject,
         commandSpecifier,
-      };
+      });
     });
   }
 
@@ -107,7 +100,8 @@ class MagicBag {
     this.actionsList = [];
     this.actionsMap = {};
     this.rulebooks = [];
-    this.activeAction = null;
+    this.processingAction = false;
+    this.actionQueue = [];
     this.loadComplete = false;
     this.pendingLoadResolve = null;
   }
@@ -194,7 +188,15 @@ class MagicBag {
         } else {
           magic.activeAction.reject(retValue);
         }
+
         magic.activeAction = null;
+
+        if (magic.actionQueue.length > 0) {
+          magic.processAction();
+        } else {
+          magic.processingAction = false;
+        }
+
         output = output.replace(regex, "");
       }
     }
@@ -223,5 +225,22 @@ class MagicBag {
       magic.pendingLoadResolve(true);
       magic.pendingLoadResolve = null;
     }
+  }
+
+  queueTrigger(actionSpecifier) {
+    this.actionQueue.push(actionSpecifier);
+    if (!this.processingAction) {
+      this.processingAction = true;
+      this.processAction();
+    }
+  }
+
+  processAction() {
+    const actionSpecifier = this.actionQueue.shift();
+    this.activeAction = actionSpecifier;
+    vorple.prompt.queueCommand(
+      `trigger ${actionSpecifier.commandSpecifier}`,
+      true
+    );
   }
 }
