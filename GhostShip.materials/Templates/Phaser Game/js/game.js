@@ -333,7 +333,6 @@ function generateActions( obj ) {
     // Loop through the total list of actions
     for ( let i = 0; i < oneArgActions.length; i++ ) {
         let action = oneArgActions[i];
-        console.log("TEST 1");
         action.check(objThing).then(() => {
             // If the action is valid for the object
             console.log(action.name, " is a valid action for ", obj);
@@ -342,7 +341,6 @@ function generateActions( obj ) {
             // If the action is NOT valid for the object
             console.log(action.name, " is NOT a valid action for ", obj);
         });
-        console.log("TEST 2");
     }
 
     // Wait 500 miliseconds for magic's promise to resolve
