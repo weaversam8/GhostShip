@@ -58,7 +58,7 @@ class Action {
     if (!this.checkRulebook)
       throw new Error("No check rulebook defined for action " + this.slug);
 
-    MagicBag.getInstance().hideVorpleOutput = true;
+    // MagicBag.getInstance().hideVorpleOutput = true;
     return this.triggerRulebook(this.checkRulebook, ...args);
   }
 
