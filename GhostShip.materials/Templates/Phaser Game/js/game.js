@@ -17,18 +17,26 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("sky", "assets/sky.png");
-    this.load.image("ground", "assets/platform.png");
-
-    this.load.image("couch", "assets/couch.png");
-    this.load.image("table", "assets/table.png");
-    this.load.image("tv", "assets/TV.png");
-    this.load.image("recordPlayer", "assets/record-player.png");
-    this.load.image("door", "assets/door.png");
-    this.load.image("carpet", "assets/carpet.png");
-    this.load.image("character", "assets/character.png");
-    this.load.image("lightSwitch", "assets/lightSwitch.png");
+    // Background sprites
     this.load.image("wall", "assets/wall.png");
+    this.load.image("carpet", "assets/carpet.png");
+    // Foreground sprites
+    this.load.image("bed_base", "assets/bed_base.png");
+    this.load.image("bed_pillow", "assets/bed_pillow.png");
+    this.load.image("bed_quilt", "assets/bed_quilt.png");
+    this.load.image("bookshelf", "assets/bookshelf.png");
+    this.load.image("bookshelf_books-row", "assets/bookshelf_books-row.png");
+    this.load.image("desk_base", "assets/desk_base.png");
+    this.load.image("desk_drawer", "assets/desk_drawer.png");
+    this.load.image("character", "assets/character.png");
+    this.load.image("door-steel", "assets/door-steel.png");
+    this.load.image("door-steel_padlock", "assets/door-steel_padlock.png");
+    this.load.image("porthole", "assets/porthole.png");
+    this.load.image("lightSwitch", "assets/lightSwitch.png");
+    this.load.image("table", "assets/table.png");
+    this.load.image("table_papers", "assets/table_papers.png");
+    this.load.image("wardrobe", "assets/wardrobe.png");
+    this.load.image("wardrobe_leather-jacket", "assets/wardrobe_leather-jacket.png");
 
     // Instance of Magic Bag API
     magic = MagicBag.getInstance();
@@ -72,23 +80,48 @@ class GameScene extends Phaser.Scene {
   }
 
   makeRoom1() {
-    // Background image
-    //this.add.image(400, 300, 'sky').setTint(0xc4c4c4);
-    var wallObj = this.add.sprite(1280 / 2, 185, "wall").setScale(1);
     // Background layer sprites
+    var wallObj = this.add.sprite(1280 / 2, 185, "wall").setScale(1);
     var carpetObj = this.add.sprite(1280 / 2, 548, "carpet").setScale(1);
-    var doorObj = this.add
-      .sprite(120, 215, "door")
-      .setScale(0.7)
-      .setInteractive();
+    
     // Foreground layer sprites
-    var tableObj = this.add
-      .sprite(500, 400, "table")
-      .setScale(0.08)
+    var doorX = 120;
+    var doorY = 215;
+    var doorObj = this.add
+      .sprite(doorX, doorY, "door-steel")
+      .setScale(0.3)
       .setInteractive();
-    var recordPlayerObj = this.add
-      .sprite(500, 300, "recordPlayer")
-      .setScale(0.08)
+    var padlockObj = this.add
+      .sprite(doorX + 40, doorY + 35, "door-steel_padlock")
+      .setScale(0.3)
+      .setInteractive();
+    var portholeObj = this.add
+      .sprite(400, 215, "porthole")
+      .setScale(0.5)
+      .setInteractive();
+    var bedX = 1000
+    var bedY = 550;
+    var bedObj = this.add
+      .sprite(bedX, bedY, "bed_base")
+      .setScale(1)
+      .setInteractive();
+    var bedPillowObj = this.add
+      .sprite(bedX + 140, bedY - 30, "bed_pillow")
+      .setScale(1)
+      .setInteractive();
+    var bedQuiltObj = this.add
+      .sprite(bedX - 70, bedY + 20, "bed_quilt")
+      .setScale(1)
+      .setInteractive();
+    var tableX = 550;
+    var tableY = 600;
+    var tableObj = this.add
+      .sprite(tableX, tableY, "table")
+      .setScale(0.35)
+      .setInteractive();
+    var tablePapersObj = this.add
+      .sprite(tableX, tableY - 20, "table_papers")
+      .setScale(0.35)
       .setInteractive();
     var characterObj = this.add
       .sprite(250, 350, "character")
@@ -100,10 +133,16 @@ class GameScene extends Phaser.Scene {
       .setInteractive();
 
     // Make objects clickable
-    clickable(recordPlayerObj, "Record Player");
-    clickable(doorObj, "Door");
+    clickable(bedObj, "a bed");
+    clickable(bedPillowObj, "a pillow");
+    clickable(bedQuiltObj, "a quilt");
+    clickable(doorObj, "a steel door");
+    clickable(padlockObj, "a padlock");
+    clickable(portholeObj, "a porthole window");
+    clickable(tableObj, "a table");
+    clickable(tablePapersObj, "a few paper");
     clickable(characterObj, "yourself");
-    clickable(lightSwitchObj, "Light Switch");
+    clickable(lightSwitchObj, "a light switch");
   }
 }
 
