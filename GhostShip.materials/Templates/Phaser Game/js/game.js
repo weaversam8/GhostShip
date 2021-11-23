@@ -28,6 +28,7 @@ class GameScene extends Phaser.Scene {
     this.load.image("bookshelf_books-row", "assets/bookshelf_books-row.png");
     this.load.image("desk_base", "assets/desk_base.png");
     this.load.image("desk_drawer", "assets/desk_drawer.png");
+    this.load.image("desk_photo", "assets/desk_photo.png");
     this.load.image("character", "assets/character.png");
     this.load.image("door-steel", "assets/door-steel.png");
     this.load.image("door-steel_padlock", "assets/door-steel_padlock.png");
@@ -96,7 +97,7 @@ class GameScene extends Phaser.Scene {
       .setScale(0.3)
       .setInteractive();
     var portholeObj = this.add
-      .sprite(400, 215, "porthole")
+      .sprite(400, 175, "porthole")
       .setScale(0.5)
       .setInteractive();
     var bedX = 1000
@@ -133,6 +134,10 @@ class GameScene extends Phaser.Scene {
       .sprite(deskX, deskY - 25, "desk_drawer")
       .setScale(0.5)
       .setInteractive();
+    var deskPhotoObj = this.add
+      .sprite(deskX + 20, deskY - 100, "desk_photo")
+      .setScale(0.3)
+      .setInteractive();
     var tableX = 550;
     var tableY = 600;
     var tableObj = this.add
@@ -144,7 +149,7 @@ class GameScene extends Phaser.Scene {
       .setScale(0.35)
       .setInteractive();
     var characterObj = this.add
-      .sprite(250, 350, "character")
+      .sprite(250, 500, "character")
       .setScale(0.5)
       .setInteractive();
     var lightSwitchObj = this.add
@@ -170,6 +175,7 @@ class GameScene extends Phaser.Scene {
     clickable(bookshelfBooksObj, "some books");
     clickable(deskObj, "a desk");
     clickable(deskDrawerObj, "a drawer");
+    clickable(deskPhotoObj, "a wedding picture");
     clickable(doorObj, "a steel door");
     clickable(padlockObj, "a padlock");
     clickable(portholeObj, "a porthole window");

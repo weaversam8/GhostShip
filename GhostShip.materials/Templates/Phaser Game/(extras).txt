@@ -10,6 +10,7 @@ assets/bookshelf.png
 assets/bookshelf_books-row.png
 assets/desk_base.png
 assets/desk_drawer.png
+assets/desk_photo.png
 assets/character.png
 assets/door-steel.png
 assets/door-steel_padlock.png
