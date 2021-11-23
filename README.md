@@ -29,4 +29,4 @@ To build the project after making changes to any of the above components:
 4. Navigate to the `GhostShip.materials/Release` directory and start a web server.
    - If you have Python 3 installed on your system, you can do this with the command `python3 -m http.server`.
 
-[^2] "Release for Testing" is needed because the Bag of Tricks interpreter currently relies on some Inform debug symbols generated during this build process. Future releases may not require these.
+[^2]: "Release for Testing" is needed because the Bag of Tricks interpreter currently relies on some Inform debug symbols generated during this build process. Future releases may not require these.
