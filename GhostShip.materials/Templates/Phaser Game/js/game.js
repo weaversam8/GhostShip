@@ -65,6 +65,8 @@ class GameScene extends Phaser.Scene {
     oneArgActions = magic.actionsList.filter((action) => action.args == 1);
     zeroArgActions = magic.actionsList.filter((action) => action.args == 0);
 
+    allActions();
+
     actionsTextArr = new Array();
     actionsTextArr.push("look at");
     actionsTextArr.push("pick up");
@@ -315,7 +317,7 @@ function selectItem(clickedItem) {
   previousButton = document.getElementById(clickedItem + "button");
 }
 
-// Make button for a given action
+// Make button for a given thing
 function makeButton(thing) {
   // Create the button with attributes
   var button = document.createElement("button");
@@ -406,6 +408,41 @@ function updateRightClickMenuValues(obj) {
   for (let i = 0; i < actionsTextArr.length; i++) {
     makeRightClickElement(actionsTextArr[i]);
   }
+}
+
+function allActions() {
+    // Loop through the total list of actions
+    for (let i = 0; i < oneArgActions.length; i++) {
+        let action = oneArgActions[i];
+        makeActionButton(action);
+    }
+}
+
+// Make button for a given action
+function makeActionButton(action) {
+    // Create the button with attributes
+    var button = document.createElement("button");
+    button.innerHTML = action.name;
+    button.id = "action_" + action.id;
+    button.className = "normalButton";
+  
+    button.onclick = function () {
+      selectActionButton(action);
+    };
+  
+    // Append button to page
+    document.getElementById("actions").appendChild(button);
+}
+// onclick event for pressing button
+function selectActionButton(clickedAction) {
+    // If there was a previous selected button, change it to normal.
+    if (previousButton) {
+      previousButton.className = "normalButton";
+    }
+    // Update class for styling
+    document.getElementById("action_" + clickedAction.id).className = "selectedButton";
+  
+    previousButton = document.getElementById("action_" + clickedAction.id);
 }
 
 function generateActions(obj) {
