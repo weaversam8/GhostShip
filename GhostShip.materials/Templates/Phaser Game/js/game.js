@@ -386,6 +386,16 @@ function objectLeftClickEvent(pointer, obj) {
       .then(() => {
         // If the action is valid for the object
         console.log(selectedActionItem.name, " is a valid action for ", obj);
+        selectedActionItem
+          .carryOut(objThing)
+          .then(() => {
+            // If the action is valid for the object
+            console.log("Carrying out for ", selectedActionItem.name);
+          })
+          .catch(() => {
+            // If the action is NOT valid for the object
+            console.log("ERROR carrying out for ", selectedActionItem.name);
+          });
       })
       .catch(() => {
         // If the action is NOT valid for the object
@@ -394,10 +404,15 @@ function objectLeftClickEvent(pointer, obj) {
 
     scrollTextBox();
 
+    // Wait 500 miliseconds for magic's promise to resolve
+/*     setTimeout(function () {
+        console.log("waiting");
+    }, 500);
+ */
     // De-select item
-    document.getElementById("action_" + selectedActionItem.id).className = "normalButton";
-    selectedActionItem = null;
-    document.getElementById("clickedActionItem").innerText = "None";
+    //document.getElementById("action_" + selectedActionItem.id).className = "normalButton";
+    //selectedActionItem = null;
+    //document.getElementById("clickedActionItem").innerText = "None";
   }
 
   // If pointer is not in the right-click menu
@@ -442,7 +457,7 @@ function allActions() {
 function makeActionButton(action) {
     // Create the button with attributes
     var button = document.createElement("button");
-    button.innerHTML = action.name;
+    button.innerHTML = action.slug;
     button.id = "action_" + action.id;
     button.className = "normalButton";
   
