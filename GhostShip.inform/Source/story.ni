@@ -427,7 +427,7 @@ Carry out switching on the control switch:
 	if power_on is 0:
 		instead say "As you turn on the switch, you hear a small cracking noise, and the light above your head flickers even more dimly. Better just leave it be for now.";
 	otherwise:
-		say "The door slowly creaks open, and you can finally go to the upper deck. [paragraph break]You searched the ship thoroughly and found no one except yourself. The crew's gone, vanished without a trace. You tried to use radio to contact the coast guards, military or any passing ship, but there's nothing but the sound of buzzing static noise in the radio waves. Desperately, You tried to sail the ship to the nearest harbour alone. As you push the throttle to maximum, you can hear the engines roaring and the propellers rotating in the back of the ship, yet you cannot feel the ship is moving at all.[paragraph break]Confused, you turn on the big searchlights, and that's the moment you see the Thing through the slanted windows of the bridge...";
+		say "The door slowly creaks open, and you can finally go to the upper deck. [paragraph break]You searched the ship thoroughly and found no one except yourself. The crew's gone, vanished without a trace. You tried to use radio to contact the coast guards, military or any passing ship, but there's nothing but the sound of buzzing static noise in the radio waves. Desperately, You tried to sail the ship to the nearest harbour alone. As you push the throttle to maximum, you can hear the engines roaring and the propellers rotating in the back of the ship, yet you cannot feel the ship is moving at all.[paragraph break]Confused, you turn on the big searchlights, and that's the moment you see the undescribable Thing through the slanted windows of the bridge...";
 		end the story saying "The MV Valiant was sighted near the coast of Nova Scotia several days later. The only remaining crew member on board was the first mate, former Lieutenant Commander of the Royal Navy. According to the coast guard who questioned him, he seemed a bit psychotic, and insisted that he had no idea about the whereabouts of the rest of the crew members, instead he told a story of a giant monster of supernatural powers. Nobody believed it, of course.".
 Report switching on the control switch:
 	instead say "".
@@ -507,6 +507,12 @@ Carry out welding:
 			now the welded screwdriver is nowhere;
 			now the shell is unlocked;
 			now the strange screwdriver is in the engine room;
+		otherwise if the second noun is the screw and the noun is welded screwdriver:
+			say "You fire up the welding unit, flame bursts forward from the nuzzle. You try your best to weld the two pieces together, and somehow it works. You successfully welded the screwdriver with the screw.[paragraph break]You remove the screw from the shell, now the shell is no longer locked.";
+			now the screw is nowhere;
+			now the welded screwdriver is nowhere;
+			now the shell is unlocked;
+			now the strange screwdriver is in the engine room;
 		otherwise:
 			 say "This is a bad idea."
 
@@ -532,8 +538,7 @@ Carry out screwing it with:
 		if the second noun is broken screwdriver head and the noun is the screw:
 			say "You try to screw the torx screw on the panel with the broken screwdriver tip, but the tip is sabotaged and no longer fit into the torx screw.";
 		if the second noun is welded screwdriver and the noun is the screw:
-			say "You try to screw the torx screw on the panel with the screwdriver that you fixed, but the tip is sabotaged and no longer fit into the torx screw. Is there any other way to make it work?";
-			now the screw is nowhere.
+			say "You try to screw the torx screw on the panel with the screwdriver that you fixed, but the tip is sabotaged and no longer fit into the torx screw. Is there any other way to make it work?".
 
 Understand "screw [something] with [something]" as screwing it with. 
 
