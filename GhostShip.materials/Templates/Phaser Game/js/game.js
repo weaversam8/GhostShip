@@ -1,6 +1,8 @@
 // Game variables
 var selectedItem;
+var selectedActionItem;
 var actionsTextArr;
+var clickedThing;
 
 // Rooms
 const rooms = ["a Cabin", "an Engine room"];
@@ -59,7 +61,7 @@ class GameScene extends Phaser.Scene {
     // Initial starting scene
     this.makeRoom1();
 
-    customRightClick();
+    //customRightClick();
 
     // Magic stuff
     oneArgActions = magic.actionsList.filter((action) => action.args == 1);
@@ -71,6 +73,10 @@ class GameScene extends Phaser.Scene {
     actionsTextArr.push("look at");
     actionsTextArr.push("pick up");
     actionsTextArr.push("smell");
+
+    // Placeholder text for selected action / object
+    document.getElementById("clickedActionItem").innerText = "None";
+    document.getElementById("clickedObject").innerText = "None";
   }
 
   update() {
@@ -350,7 +356,7 @@ function clickable(object, name) {
       objectLeftClickEvent(pointer, name);
     } else if (pointer.button == 2) {
       // Right-click event
-      objectRightClickEvent(name);
+      //objectRightClickEvent(name);
     }
 
     clickedObject = name;
@@ -367,23 +373,37 @@ function clickable(object, name) {
   });
 }
 
-function objectLeftClickEvent(pointer, name) {
-  if (selectedItem != null) {
-    // Output to game text scrollbox
-    var output = "TEMP OUTPUT: " + "use " + selectedItem + " on " + name + "\n";
-    document.getElementById("game-text").innerText += output;
+function objectLeftClickEvent(pointer, obj) {
+  if (selectedActionItem != null) {
+    getThing(obj);
+    var objThing = clickedThing;
+
+    console.log("Selected action/item is: ", selectedActionItem);
+    console.log("Thing is: ", objThing);
+
+    selectedActionItem
+      .check(objThing)
+      .then(() => {
+        // If the action is valid for the object
+        console.log(selectedActionItem.name, " is a valid action for ", obj);
+      })
+      .catch(() => {
+        // If the action is NOT valid for the object
+        console.log(selectedActionItem.name, " is NOT a valid action for ", obj);
+      });
 
     scrollTextBox();
 
     // De-select item
-    document.getElementById(selectedItem + "button").className = "normalButton";
-    selectedItem = null;
+    document.getElementById("action_" + selectedActionItem.id).className = "normalButton";
+    selectedActionItem = null;
+    document.getElementById("clickedActionItem").innerText = "None";
   }
 
   // If pointer is not in the right-click menu
-  if (pointer.target.offsetParent != document.getElementById("context-menu")) {
+/*   if (pointer.target.offsetParent != document.getElementById("context-menu")) {
     //TODO: implement
-  }
+  } */
 }
 
 function objectRightClickEvent(obj) {
@@ -435,6 +455,8 @@ function makeActionButton(action) {
 }
 // onclick event for pressing button
 function selectActionButton(clickedAction) {
+    selectedActionItem = clickedAction;
+
     // If there was a previous selected button, change it to normal.
     if (previousButton) {
       previousButton.className = "normalButton";
@@ -443,29 +465,38 @@ function selectActionButton(clickedAction) {
     document.getElementById("action_" + clickedAction.id).className = "selectedButton";
   
     previousButton = document.getElementById("action_" + clickedAction.id);
+
+    // Update feedback text
+    document.getElementById("clickedActionItem").innerText = selectedActionItem.name;
+}
+
+function getThing(obj) {
+    // Get the "thing" as a variable from the API
+    let objThing = null;
+    let thingIDs = Object.keys(magic.things);
+    console.log("Things length is ", thingIDs.length);
+    for (let i = 0; i < thingIDs.length; i++) {
+        console.log("Comparing ", magic.things[thingIDs[i]].name, " with ", obj);
+        if (magic.things[thingIDs[i]].name === obj) {
+            objThing = magic.things[thingIDs[i]];
+        }
+    }
+    clickedThing = objThing;
+
+    // Error catching
+    if (objThing === null) {
+        console.log("Thing was NOT found!");
+    } else {
+        console.log("Thing was found: ", objThing.name);
+    }
 }
 
 function generateActions(obj) {
   // Clear the old actions
   actionsTextArr = [];
 
-  // Get the "thing" as a variable from the API
-  let objThing = null;
-  let thingIDs = Object.keys(magic.things);
-  console.log("Things length is ", thingIDs.length);
-  for (let i = 0; i < thingIDs.length; i++) {
-    console.log("Comparing ", magic.things[thingIDs[i]].name, " with ", obj);
-    if (magic.things[thingIDs[i]].name === obj) {
-      objThing = magic.things[thingIDs[i]];
-    }
-  }
-
-  // Error catching
-  if (objThing === null) {
-    console.log("Thing was NOT found!");
-  } else {
-    console.log("Thing was found: ", objThing.name);
-  }
+  getThing(obj);
+  var objThing = clickedThing;
 
   // Loop through the total list of actions
   for (let i = 0; i < oneArgActions.length; i++) {
@@ -514,6 +545,6 @@ function selectAction(text) {
 
 function scrollTextBox() {
   // Scroll content to the bottom automatically
-  var gameTextbox = document.getElementById("game-text");
+  var gameTextbox = document.getElementById("output");
   gameTextbox.scrollTop = gameTextbox.scrollHeight;
 }
