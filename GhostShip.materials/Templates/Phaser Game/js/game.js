@@ -457,7 +457,7 @@ function allActions() {
 function makeActionButton(action) {
     // Create the button with attributes
     var button = document.createElement("button");
-    button.innerHTML = action.name;
+    button.innerHTML = action.slug;
     button.id = "action_" + action.id;
     button.className = "normalButton";
   
