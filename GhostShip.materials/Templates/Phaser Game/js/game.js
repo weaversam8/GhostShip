@@ -113,6 +113,26 @@ class GameScene extends Phaser.Scene {
       .sprite(bedX - 70, bedY + 20, "bed_quilt")
       .setScale(1)
       .setInteractive();
+    var bookshelfX = 500;
+    var bookshelfY = 350;
+    var bookshelfObj = this.add
+      .sprite(bookshelfX, bookshelfY, "bookshelf")
+      .setScale(0.25)
+      .setInteractive();
+    var bookshelfBooksObj = this.add
+      .sprite(bookshelfX, bookshelfY - 15, "bookshelf_books-row")
+      .setScale(0.25)
+      .setInteractive();
+    var deskX = 700;
+    var deskY = 350;
+    var deskObj = this.add
+      .sprite(deskX, deskY, "desk_base")
+      .setScale(0.5)
+      .setInteractive();
+    var deskDrawerObj = this.add
+      .sprite(deskX, deskY - 25, "desk_drawer")
+      .setScale(0.5)
+      .setInteractive();
     var tableX = 550;
     var tableY = 600;
     var tableObj = this.add
@@ -131,11 +151,25 @@ class GameScene extends Phaser.Scene {
       .sprite(270, 160, "lightSwitch")
       .setScale(0.3)
       .setInteractive();
+    var wardrobeX = 900;
+    var wardrobeY = 300;
+    var wardrobeObj = this.add
+      .sprite(wardrobeX, wardrobeY, "wardrobe")
+      .setScale(0.3)
+      .setInteractive();
+    var wardrobeJacketObj = this.add
+      .sprite(wardrobeX, wardrobeY - 25, "wardrobe_leather-jacket")
+      .setScale(0.3)
+      .setInteractive();
 
     // Make objects clickable
     clickable(bedObj, "a bed");
     clickable(bedPillowObj, "a pillow");
     clickable(bedQuiltObj, "a quilt");
+    clickable(bookshelfObj, "a bookshelf");
+    clickable(bookshelfBooksObj, "some books");
+    clickable(deskObj, "a desk");
+    clickable(deskDrawerObj, "a drawer");
     clickable(doorObj, "a steel door");
     clickable(padlockObj, "a padlock");
     clickable(portholeObj, "a porthole window");
@@ -143,6 +177,8 @@ class GameScene extends Phaser.Scene {
     clickable(tablePapersObj, "a few paper");
     clickable(characterObj, "yourself");
     clickable(lightSwitchObj, "a light switch");
+    clickable(wardrobeObj, "a wardrobe");
+    clickable(wardrobeJacketObj, "a leather coat");
   }
 }
 
