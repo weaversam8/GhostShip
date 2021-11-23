@@ -39,7 +39,10 @@ class GameScene extends Phaser.Scene {
     this.load.image("table", "assets/table.png");
     this.load.image("table_papers", "assets/table_papers.png");
     this.load.image("wardrobe", "assets/wardrobe.png");
-    this.load.image("wardrobe_leather-jacket", "assets/wardrobe_leather-jacket.png");
+    this.load.image(
+      "wardrobe_leather-jacket",
+      "assets/wardrobe_leather-jacket.png"
+    );
 
     // Instance of Magic Bag API
     magic = MagicBag.getInstance();
@@ -92,7 +95,7 @@ class GameScene extends Phaser.Scene {
     // Background layer sprites
     var wallObj = this.add.sprite(1280 / 2, 185, "wall").setScale(1);
     var carpetObj = this.add.sprite(1280 / 2, 548, "carpet").setScale(1);
-    
+
     // Foreground layer sprites
     var doorX = 120;
     var doorY = 215;
@@ -108,7 +111,7 @@ class GameScene extends Phaser.Scene {
       .sprite(400, 175, "porthole")
       .setScale(0.5)
       .setInteractive();
-    var bedX = 1000
+    var bedX = 1000;
     var bedY = 550;
     var bedObj = this.add
       .sprite(bedX, bedY, "bed_base")
@@ -378,34 +381,37 @@ function objectLeftClickEvent(pointer, obj) {
     getThing(obj);
     var objThing = clickedThing;
 
-    console.log("Selected action/item is: ", selectedActionItem);
+    let action = selectedActionItem;
+
+    console.log("Selected action/item is: ", action);
     console.log("Thing is: ", objThing);
 
-    selectedActionItem
+    action
       .check(objThing)
       .then(() => {
         // If the action is valid for the object
-        console.log(selectedActionItem.name, " is a valid action for ", obj);
-        selectedActionItem
+        console.log(action.name, " is a valid action for ", obj);
+        action
           .carryOut(objThing)
           .then(() => {
             // If the action is valid for the object
-            console.log("Carrying out for ", selectedActionItem.name);
+            console.log("Carried out for ", action.name);
+            action.report(objThing);
           })
           .catch(() => {
             // If the action is NOT valid for the object
-            console.log("ERROR carrying out for ", selectedActionItem.name);
+            console.log("ERROR carrying out for ", action.name);
           });
       })
       .catch(() => {
         // If the action is NOT valid for the object
-        console.log(selectedActionItem.name, " is NOT a valid action for ", obj);
+        console.log(action.name, " is NOT a valid action for ", obj);
       });
 
     scrollTextBox();
 
     // Wait 500 miliseconds for magic's promise to resolve
-/*     setTimeout(function () {
+    /*     setTimeout(function () {
         console.log("waiting");
     }, 500);
  */
@@ -416,7 +422,7 @@ function objectLeftClickEvent(pointer, obj) {
   }
 
   // If pointer is not in the right-click menu
-/*   if (pointer.target.offsetParent != document.getElementById("context-menu")) {
+  /*   if (pointer.target.offsetParent != document.getElementById("context-menu")) {
     //TODO: implement
   } */
 }
@@ -446,64 +452,66 @@ function updateRightClickMenuValues(obj) {
 }
 
 function allActions() {
-    // Loop through the total list of actions
-    for (let i = 0; i < oneArgActions.length; i++) {
-        let action = oneArgActions[i];
-        makeActionButton(action);
-    }
+  // Loop through the total list of actions
+  for (let i = 0; i < oneArgActions.length; i++) {
+    let action = oneArgActions[i];
+    makeActionButton(action);
+  }
 }
 
 // Make button for a given action
 function makeActionButton(action) {
-    // Create the button with attributes
-    var button = document.createElement("button");
-    button.innerHTML = action.slug;
-    button.id = "action_" + action.id;
-    button.className = "normalButton";
-  
-    button.onclick = function () {
-      selectActionButton(action);
-    };
-  
-    // Append button to page
-    document.getElementById("actions").appendChild(button);
+  // Create the button with attributes
+  var button = document.createElement("button");
+  button.innerHTML = action.slug;
+  button.id = "action_" + action.id;
+  button.className = "normalButton";
+
+  button.onclick = function () {
+    selectActionButton(action);
+  };
+
+  // Append button to page
+  document.getElementById("actions").appendChild(button);
 }
 // onclick event for pressing button
 function selectActionButton(clickedAction) {
-    selectedActionItem = clickedAction;
+  selectedActionItem = clickedAction;
 
-    // If there was a previous selected button, change it to normal.
-    if (previousButton) {
-      previousButton.className = "normalButton";
-    }
-    // Update class for styling
-    document.getElementById("action_" + clickedAction.id).className = "selectedButton";
-  
-    previousButton = document.getElementById("action_" + clickedAction.id);
+  // If there was a previous selected button, change it to normal.
+  if (previousButton) {
+    previousButton.className = "normalButton";
+  }
+  // Update class for styling
+  document.getElementById("action_" + clickedAction.id).className =
+    "selectedButton";
 
-    // Update feedback text
-    document.getElementById("clickedActionItem").innerText = selectedActionItem.name;
+  previousButton = document.getElementById("action_" + clickedAction.id);
+
+  // Update feedback text
+  document.getElementById("clickedActionItem").innerText =
+    selectedActionItem.name;
 }
 
 function getThing(obj) {
-    // Get the "thing" as a variable from the API
-    let objThing = null;
-    let thingIDs = Object.keys(magic.things);
-    console.log("Things length is ", thingIDs.length);
-    for (let i = 0; i < thingIDs.length; i++) {
-        console.log("Comparing ", magic.things[thingIDs[i]].name, " with ", obj);
-        if (magic.things[thingIDs[i]].name === obj) {
-            objThing = magic.things[thingIDs[i]];
-        }
+  // Get the "thing" as a variable from the API
+  let objThing = null;
+  let thingIDs = Object.keys(magic.things);
+  console.log("Things length is ", thingIDs.length);
+  for (let i = 0; i < thingIDs.length; i++) {
+    console.log("Comparing ", magic.things[thingIDs[i]].name, " with ", obj);
+    if (magic.things[thingIDs[i]].name === obj) {
+      objThing = magic.things[thingIDs[i]];
     }
-    clickedThing = objThing;
+  }
+  clickedThing = objThing;
 
-    // Error catching
-    if (objThing === null) {
-        console.log("Thing was NOT found!");
-    } else {
-        console.log("Thing was found: ", objThing.name);
-    }
+  // Error catching
+  if (objThing === null) {
+    console.log("Thing was NOT found!");
+  } else {
+    console.log("Thing was found: ", objThing.name);
+  }
 }
 
 function generateActions(obj) {
